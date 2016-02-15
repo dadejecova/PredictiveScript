@@ -1,14 +1,14 @@
-import sqlite3
+import sqlite3                                      
 import matplotlib.pyplot as plt
-from collections import Counter
+from collections import Counter                         #Uso de las librerias correspondientes a usar.
 
-conn = sqlite3.connect('../input/database.sqlite')
+conn = sqlite3.connect('../input/database.sqlite')      #conexión con la base
 
-c = conn.cursor()
+c = conn.cursor()                                   
 
-subreddit_dict = {}
+subreddit_dict = {}                                     
 
-default_subs = ["announcements",
+default_subs = ["announcements",                        #Campos a usar de la DB
 "Art",
 "AskReddit",
 "askscience",
@@ -60,8 +60,8 @@ default_subs = ["announcements",
 "WritingPrompts",
 ]
 
-for subreddit in c.execute('SELECT subreddit FROM May2015 ORDER BY ups LIMIT 100'):
-    sub_string = ""
+for subreddit in c.execute('SELECT subreddit FROM May2015 ORDER BY ups LIMIT 100'):     #For que almacena los valores encontrados como
+    sub_string = ""                                                                     #+1 
     sub_string += subreddit[0]
     if sub_string in default_subs:
         if sub_string in subreddit_dict:
@@ -69,7 +69,7 @@ for subreddit in c.execute('SELECT subreddit FROM May2015 ORDER BY ups LIMIT 100
         else:
             subreddit_dict[sub_string] = 1
 
-def make_percent(sub):
+def make_percent(sub):                                                                  #Valores totales presentados en forma %
     total_comments = 0
     for entry in subreddit_dict:
         total_comments += subreddit_dict[entry]
@@ -79,11 +79,11 @@ def make_percent(sub):
 total = 0
 percent_list = []
 sub_list = []
-for sub in subreddit_dict:
+for sub in subreddit_dict:                                                              #Suma valores % para agregar al gráfico
     sub_list.append(sub)
     percent = make_percent(sub)
     percent_list.append(percent)
     total += percent
 
-plt.pie(percent_list, explode = None, labels = sub_list)
-plt.savefig("pie.png")
+plt.pie(percent_list, explode = None, labels = sub_list)                                #Creación del diseño del gráfico a mostrar
+plt.savefig("pie.png")                                                                  #Muestra final del Gráfico
