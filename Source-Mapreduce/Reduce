@@ -1,0 +1,22 @@
+def reduce(key, values, mu=0.1):
+  sumETE = None
+  sumETDe = None
+   
+  # Esta sin valor las clavespor ahora
+  for _, value in values:
+    # Con valoresaun no seleccionados.
+    ETE, ETDe = pickle.loads(base64.b64decode(value)) 
+    if sumETE == None:
+      # Creamos las dimensiones de la matriz
+      sumETE = numpy.matrix(numpy.eye(ETE.shape[1])/mu)
+    sumETE += ETE
+ 
+    if sumETDe == None:
+      # Laclave vacia sumETDe le agregamos valores
+      sumETDe = ETDe
+    else:
+      sumETDe += ETDe
+     
+    # Mostramos el valor obtenido ensumETE.I*sumETDe y presentamos el resultado de la llave
+    result = sumETE.I*sumETDe 
+    print "%s\t%s" % (key, str(result.tolist()))
