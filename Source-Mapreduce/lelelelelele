@@ -1,1 +1,20 @@
-Patito
+def map(key, value):
+   # Clave de entrada es la clase de datos
+   classes = [float(item) for item in key.split(",")]   # e.g. [-1.0]
+   D = numpy.diag(classes)
+ 
+   # Valor de entrada con el vector de datos en este ejercicio, con los valores split de "D=numpy"
+   featurematrix = [float(item) for item in value.split(",")]
+   A = numpy.matrix(featurematrix)
+ 
+   # Creación de matriz y vector E - e
+   e = numpy.matrix(numpy.ones(len(A)).reshape(len(A),1)) 
+   E = numpy.matrix(numpy.append(A,-e,axis=1)) 
+    
+   # Creamos la tupla con los valores a usar en el reduce
+   # y lo codificamos con base64 para evadir problas graves
+   # Hadoop se encarga de poner los separadores por defecto
+   producedvalue = base64.b64encode(pickle.dumps( (E.T*E, E.T*D*e) )    
+ 
+   #Presentamos le valor producido
+   print "producedkey\t%s" % (producedvalue)
